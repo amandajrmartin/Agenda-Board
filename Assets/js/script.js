@@ -15,7 +15,7 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
     const todoList = $("#to-do")
-    const taskCard = $("<div>").addClass("card-body draggable").attr('data-taskId', task.id)
+    const taskCard = $("<div>").addClass("card-body draggable m-2").attr('data-taskId', task.id)
     const cardTitle = $("<h2>").text(task.title)
     const cardDate = $("<h3>").text(task.date)
     const cardDescription = $("<h4>").text(task.description)
@@ -33,7 +33,12 @@ function createTaskCard(task) {
         }
     } else { taskCard.addClass('card bg-success draggable') }
     taskCard.append(cardTitle, cardDate, cardDescription, cardStatus)
+    console.log(taskCard);
+    $(".draggable").draggable();
+    var todo = $("#todo-cards");
+    todo.append(taskCard)
     return taskCard;
+    // append the taskcard to one of the columms
 }
 
 
@@ -41,7 +46,7 @@ function createTaskCard(task) {
 function renderTaskList() {
     let tasks = JSON.parse(localStorage.getItem('tasks'))
     tasks.forEach(task => {
-        createTaskCard()
+        createTaskCard(task);
     });
 }
 function submitTask(event) {
@@ -72,7 +77,7 @@ function handleAddTask(event) {
     <input type="date" id="date">
     <label for="description">Description:</label>
     <textarea name="description" id="description" cols="30" rows="10"></textarea>
-    <button type="submit">Submit</button>
+    <button type="submit" id='submit'>Submit</button>
     </form>`)
     $("#dialog").dialog()
 }
@@ -101,6 +106,7 @@ function handleDrop(event, ui) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+    var submitbutton = document.getElementById('submit');
     taskButton.addEventListener('click', handleAddTask())
     submitbutton.addEventListener('click', submitTask)
 });
